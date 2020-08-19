@@ -26,6 +26,12 @@ p {
 	text-align: center;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+}
+
 .btn {
 	color: #fff;
 	background: var(--primary-color);
