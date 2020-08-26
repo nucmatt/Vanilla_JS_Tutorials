@@ -29,6 +29,23 @@ async function getRandomUser() {
 	addData(newUser);
 }
 
+// Double everyone's money
+const doubleMoney = () => {
+	data = data.map((user) => {
+        // here we use the spread operator to give us the full user object and then update the money property value by mutliplying it by 2.
+		return { ...user, money: user.money * 2 };
+	});
+
+	updateDOM();
+};
+
+// Sort users by richest
+const sortByRichest = () => {
+    // Remember that sort converts each array item to a string for comparison. When sorting numbers you need to provide a compare function to sort the numbers properly. Standarnd nomenclature for the comparison function is a, b arguments. a - b is ascending order, b - a is descending order.
+    data.sort((a,b) => b.money - a.money);
+
+    updateDOM();
+}
 // Add new user obje to data array
 function addData(obj) {
 	data.push(obj);
@@ -40,20 +57,24 @@ function addData(obj) {
 // For the argument providedData, if there is no value passed in for the argument, its value will default to data. This is more ES6 syntax goodness.
 const updateDOM = (providedData = data) => {
 	// Clear main div
-    main.innerHTML = '<h2><strong>Person</strong> Wealth</h2>';
+	main.innerHTML = '<h2><strong>Person</strong> Wealth</h2>';
 
-    providedData.forEach(item => {
-        const element = document.createElement('div');
-        element.classList.add('person');
-        element.innerHTML = `<strong>${item.name}</strong> ${formatMoney(item.money)}`;
-        main.appendChild(element);
-    })
+	providedData.forEach((item) => {
+		const element = document.createElement('div');
+		element.classList.add('person');
+		element.innerHTML = `<strong>${item.name}</strong> ${formatMoney(
+			item.money
+		)}`;
+		main.appendChild(element);
+	});
 };
 
 // Format number as money
 const formatMoney = (number) => {
-    return '$' + number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+	return '$' + number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 };
 
 // Event listeners
 addUserBtn.addEventListener('click', getRandomUser);
+doubleBtn.addEventListener('click', doubleMoney);
+sortBtn.addEventListener('click', sortByRichest);
